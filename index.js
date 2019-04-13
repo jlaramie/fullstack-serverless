@@ -280,7 +280,37 @@ class ServerlessFullstackPlugin {
         this.prepareSinglePageApp(resources.Resources);
         this.prepareS3(resources.Resources);
         this.prepareMinimumProtocolVersion(distributionConfig);
+        this.prepareCaching(distributionConfig);
 
+    }
+
+    prepareCaching(distributionConfig) {
+        const cacheBehavior = distributionConfig.CacheBehaviors ? distributionConfig.CacheBehaviors[0] || null : null;
+        const customCacheBehavior = this.getConfig('cacheBehavior', null);
+
+        console.log('Custom Cache Bheaviors', customCacheBehavior);
+
+        if (customCacheBehavior !== null && cacheBehavior !== null) {
+            if (customCacheBehavior.ForwardedValues) {
+                this.serverless.cli.log('Merging CacheBehaviors.ForwardedValues');
+                cacheBehavior.ForwardedValues = _.merge(
+                    cacheBehavior.ForwardedValues || {}, 
+                    customCacheBehavior.ForwardedValues
+                );
+            }
+
+            if (customCacheBehavior.AllowedMethods) {
+                this.serverless.cli.log('Setting CacheBehaviors.AllowedMethods');
+                cacheBehavior.AllowedMethods = customCacheBehavior.AllowedMethods;
+            }
+
+            if (customCacheBehavior.CachedMethods) {
+                this.serverless.cli.log('Setting CacheBehaviors.CachedMethods');
+                cacheBehavior.CachedMethods = customCacheBehavior.CachedMethods;
+            }
+            
+            distributionConfig.CacheBehaviors[0] = cacheBehavior;
+        }
     }
 
     prepareLogging(distributionConfig) {
