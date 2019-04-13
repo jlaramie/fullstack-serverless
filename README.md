@@ -72,6 +72,15 @@ custom:
       prefix: my-prefix
     minimumProtocolVersion: TLSv1.2_2018
     priceClass: PriceClass_100
+    cacheBehavior:                             # Effects the ApiGateway::CacheBehaviors[0]
+      ForwardedValues:                         # This gets merged with the default ForwardedValues. All valid parameters for ForwardValues can be passed
+        Headers:
+          - Accept
+          - Content-Type
+      AllowedMethods:                          # Sets the ApiGateway::CacheBehaviors[0].AllowedMethods
+        - GET
+      CachedMethods:                           # Sets the ApiGateway::CacheBehaviors[0].CachedMethods
+        - GET
 ```
 
 
