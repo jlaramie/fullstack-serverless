@@ -288,8 +288,6 @@ class ServerlessFullstackPlugin {
         const cacheBehavior = distributionConfig.CacheBehaviors ? distributionConfig.CacheBehaviors[0] || null : null;
         const customCacheBehavior = this.getConfig('cacheBehavior', null);
 
-        console.log('Custom Cache Bheaviors', customCacheBehavior);
-
         if (customCacheBehavior !== null && cacheBehavior !== null) {
             if (customCacheBehavior.ForwardedValues) {
                 this.serverless.cli.log('Merging CacheBehaviors.ForwardedValues');
