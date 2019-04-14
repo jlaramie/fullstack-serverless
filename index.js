@@ -291,7 +291,7 @@ class ServerlessFullstackPlugin {
         if (customCacheBehavior !== null && cacheBehavior !== null) {
             if (customCacheBehavior.ForwardedValues) {
                 this.serverless.cli.log('Merging CacheBehaviors.ForwardedValues');
-                cacheBehavior.ForwardedValues = _.merge(
+                cacheBehavior.ForwardedValues = _.assign(
                     cacheBehavior.ForwardedValues || {}, 
                     customCacheBehavior.ForwardedValues
                 );
